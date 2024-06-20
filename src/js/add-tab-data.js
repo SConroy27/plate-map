@@ -197,7 +197,7 @@ var plateMapWidget = plateMapWidget || {};
                 value: curVal
               };
 
-              // field._changeMultiFieldValue(returnVal, null);
+              field._changeMultiFieldValue(returnVal, null);
               // let curDataLs = mainRefField.detailData;
               // if (curDataLs !== null) {
               //   curId = mainRefField.singleSelectValue();

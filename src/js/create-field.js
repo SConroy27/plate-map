@@ -367,7 +367,8 @@ var plateMapWidget = plateMapWidget || {};
 
       _createSelectField: function (field) {
 
-        // HB
+        // HB product lot additions //
+        // \/ \/ \/ \/ \/ //
         if (field.id === 'product_id') {
           console.log('creating product lot field');
 
@@ -398,8 +399,52 @@ var plateMapWidget = plateMapWidget || {};
             }
           };
 
+          field._changeMultiFieldValue = function (added, removed) {
+            console.log('_changeMultiFieldValue fired for product lot')
+            let newSubFieldValue = {};
+            for (let i = 0; i < field.subFieldList.length; i++) {
+              let subFieldId = field.subFieldList[i].id;
+              newSubFieldValue[subFieldId] = null;
+            }
+  
+            let val;
+            if (added) {
+              if (added.value) {
+                val = added.value;
+              } else {
+                newSubFieldValue[field.id] = added.id;
+                val = newSubFieldValue;
+              }
+              added = {
+                id: added.id,
+                value: val
+              };
+            }
+  
+            if (removed) {
+              if (removed.value) {
+                val = removed.value;
+              } else {
+                newSubFieldValue[field.id] = removed.id;
+                val = newSubFieldValue;
+              }
+              removed = {
+                id: removed.id,
+                value: val
+              };
+            }
+  
+            let data = {};
+            data[field.id] = {
+              multi: true,
+              added: added,
+              removed: removed
+            };
+            that._addAllData(data);
+          };
         }
-        // HB
+        // ^^^^^^^^^^^^^^^^^^^^^^^^ //
+        // HB product lot additions //
 
         let full_id = field.full_id;
         let that = this;
